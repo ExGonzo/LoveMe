@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Game - Click Your Way to Romance 💕</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #ff6b9d;
+            --secondary-color: #ffc8dd;
+            --accent-color: #c44569;
+            --light-bg: #fff5f9;
+            --card-bg: #ffffff;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --border-radius: 20px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fff5f9 0%, #fee9f3 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .background-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 3rem;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .heart-1 { top: 10%; left: 10%; animation-delay: 0s; }
+        .heart-2 { top: 50%; right: 15%; animation-delay: 1s; }
+        .heart-3 { top: 70%; left: 5%; animation-delay: 2s; }
+        .heart-4 { top: 30%; right: 10%; animation-delay: 3s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            z-index: 10;
+        }
+
+        .back-btn:hover {
+            background: white;
+            transform: translateX(-5px);
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .game-container {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(255, 107, 157, 0.2);
+            text-align: center;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--secondary-color);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b9d 0%, #c44569 100%);
+            width: 0%;
+            transition: width 0.4s ease-out;
+        }
+
+        .progress-text {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        .title {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .subtitle {
+            color: var(--text-light);
+            margin-bottom: 40px;
+            font-size: 0.95rem;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            border-radius: 20px;
+            padding: 60px 40px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            animation: shine 3s ease-in-out infinite;
+        }
+
+        @keyframes shine {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(50px, 50px); }
+        }
+
+        .card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 50px rgba(255, 107, 157, 0.5);
+        }
+
+        .card:active {
+            transform: scale(0.98);
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            text-align: center;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .card-emoji {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            animation: bounce 0.6s ease-out;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .card-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            line-height: 1.6;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .hint {
+            color: rgba(255, 255, 255, 0.9);
+            margin-top: 20px;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 157, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--secondary-color);
+            color: var(--accent-color);
+        }
+
+        .final-message {
+            display: none;
+            animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) rotate(-10deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .final-message.show {
+            display: block;
+        }
+
+        .hearts-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .heart-icon {
+            font-size: 2rem;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        .heart-icon:nth-child(1) { animation-delay: 0s; }
+        .heart-icon:nth-child(2) { animation-delay: 0.2s; }
+        .heart-icon:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .confetti {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .key-indicator {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: white;
+            margin-left: 5px;
+        }
+
+        @media (max-width: 600px) {
+            .game-container {
+                padding: 25px;
+            }
+
+            .title {
+                font-size: 1.5rem;
+            }
+
+            .card {
+                padding: 40px 25px;
+                min-height: 250px;
+            }
+
+            .card-text {
+                font-size: 1.1rem;
+            }
+
+            .card-emoji {
+                font-size: 2.5rem;
+            }
+
+            .back-btn {
+                top: 10px;
+                left: 10px;
+                padding: 8px 14px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="back-btn" onclick="window.location.href='index.html'">
+        <i class="fas fa-arrow-left"></i> Back
+    </button>
+
+    <div class="background-elements">
+        <div class="floating-heart heart-1">❤️</div>
+        <div class="floating-heart heart-2">💕</div>
+        <div class="floating-heart heart-3">💖</div>
+        <div class="floating-heart heart-4">💝</div>
+    </div>
+
+    <div class="container">
+        <div class="game-container">
+            <div class="title">
+                💕 Game for Sarah 💕
+            </div>
+            <p class="subtitle">Click the card to see how much I adore my favorite mermaid princess 🧜‍♀️👑</p>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">
+                Keep clicking! 15 clicks until your surprise 💕
+            </div>
+
+            <div class="card" id="gameCard">
+                <div class="card-content">
+                    <div class="card-emoji" id="cardEmoji">❤️</div>
+                    <div class="card-text" id="cardText">Click me! 💗</div>
+                    <div class="hint" id="cardHint">Press SPACE or click to continue</div>
+                </div>
+            </div>
+
+            <div class="final-message" id="finalMessage">
+                <div style="color: var(--primary-color); margin-bottom: 20px;">
+                    <div style="font-size: 3rem; margin-bottom: 15px;">🎉</div>
+                    <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 10px;">You Made It, Princess! 👑</div>
+                    <div style="font-size: 1.1rem; color: var(--text-light); line-height: 1.6; margin-bottom: 20px;">
+                        Sarah, you're absolutely the best at this! 🧜‍♀️💦
+                        <br/>
+                        <br/>
+                        Thanks for spending all these clicks with me. You know that mad face you always make? Yeah, I still think you're the cutest. 😠💕
+                        <br/>
+                        <br/>
+                        <strong>I love you more than you love your teddy bears (and that's saying something)! 🧸</strong>
+                    </div>
+                </div>
+                <div class="hearts-container">
+                    <span class="heart-icon">❤️</span>
+                    <span class="heart-icon">💕</span>
+                    <span class="heart-icon">💖</span>
+                </div>
+            </div>
+
+            <div class="button-group" id="buttonGroup">
+                <button class="btn" onclick="location.reload()">
+                    <i class="fas fa-redo"></i> Play Again
+                </button>
+                <button class="btn btn-secondary" onclick="window.location.href='index.html'">
+                    <i class="fas fa-home"></i> Home
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const messages = [
+            // Mermaid & Ocean themed
+            { text: "You're my mermaid, and I'm completely drowning in you 🧜‍♀️💦", emoji: "🧜‍♀️" },
+            { text: "Fair warning: being around you makes me wet... with sweat 😅💦", emoji: "💦" },
+            { text: "You're like a mermaid - beautiful, mysterious, and probably plotting something 🧜‍♀️", emoji: "🧜‍♀️" },
+            
+            // Princess themed
+            { text: "You're my princess, but way cooler than Disney ever showed 👑", emoji: "👑" },
+            { text: "Royal decree: all your wishes are my command 👑😉", emoji: "👑" },
+            { text: "Snow White? Cinderella? Nah, Sarah's the real princess here 👑✨", emoji: "👑" },
+            
+            // Naughty & Playful
+            { text: "I like when you're naughty... especially that look you give me 😏💕", emoji: "😏" },
+            { text: "That mad face you make? Still the cutest thing I've ever seen 😠😍", emoji: "😠" },
+            { text: "You act so innocent until... well, you know 🤐😉", emoji: "😉" },
+            
+            // Teddy Bear jokes
+            { text: "Even teddy bears blush when you're around 🧸😳", emoji: "🧸" },
+            { text: "Fair warning to all stuffed animals: Sarah is a menace 🧸⚠️", emoji: "🧸" },
+            { text: "You and your teddy bear collection have a very... interesting dynamic 🧸😏", emoji: "🧸" },
+            
+            // That mad face
+            { text: "Your angry face hits different... in the best way 😠💕", emoji: "😠" },
+            { text: "When you're mad at me, it's literally impossible not to smile 😠😊", emoji: "😠" },
+            { text: "That pouty mad face? Absolutely adorable and you know it 😠❤️", emoji: "😠" },
+
+            // Arguing over stupid stuff
+            { text: "We argue about the dumbest things and somehow you're always mad at ME 😅😠", emoji: "😅" },
+            { text: "We fight over nothing and that's honestly the most adorable thing about us 💕", emoji: "💕" },
+            { text: "You always win our arguments even when you're clearly wrong 😏❤️", emoji: "😏" },
+            { text: "Arguing with you is my love language... well, that and making you mad 😈", emoji: "😈" },
+
+            // Games & playful competition
+            { text: "You drive me CRAZY in games but somehow I still want to play with you 🎮😂", emoji: "🎮" },
+            { text: "Gaming with you: 50% fun, 50% losing my mind... 100% worth it 🎮💕", emoji: "🎮" },
+            { text: "You're terrible at games and I love you even more for it 🎮😆", emoji: "🎮" },
+            { text: "Playing games with you is my favorite kind of torture 🎮❤️", emoji: "🎮" },
+
+            // Sweet & Romantic
+            { text: "You make my heart race faster than a mermaid's tail 💕🧜‍♀️", emoji: "💕" },
+        ];
+
+        let clickCount = 0;
+        const totalClicks = 15;
+        const card = document.getElementById('gameCard');
+        const cardText = document.getElementById('cardText');
+        const cardEmoji = document.getElementById('cardEmoji');
+        const cardHint = document.getElementById('cardHint');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const finalMessage = document.getElementById('finalMessage');
+        const gameContainer = document.querySelector('.game-container');
+        let messageIndex = 0;
+        let shuffledMessages = [];
+
+        // Shuffle messages
+        function shuffleMessages() {
+            shuffledMessages = [...messages].sort(() => Math.random() - 0.5);
+        }
+
+        function updateCard() {
+            const percentage = (clickCount / totalClicks) * 100;
+            progressFill.style.width = percentage + '%';
+            
+            const remaining = totalClicks - clickCount;
+            if (remaining > 0) {
+                progressText.textContent = `${remaining} more clicks to unlock your surprise 💕`;
+            } else {
+                progressText.textContent = `Here comes your reward! 🎉`;
+            }
+
+            if (clickCount < totalClicks) {
+                const message = shuffledMessages[clickCount % shuffledMessages.length];
+                cardEmoji.textContent = message.emoji;
+                cardText.textContent = message.text;
+                cardHint.innerHTML = `Keep going... <span class="key-indicator">SPACE</span>`;
+
+                // Add animation
+                cardText.style.animation = 'none';
+                setTimeout(() => {
+                    cardText.style.animation = 'slideIn 0.3s ease-out';
+                }, 10);
+            } else {
+                showFinalMessage();
+            }
+        }
+
+        function showFinalMessage() {
+            card.style.display = 'none';
+            finalMessage.classList.add('show');
+            createConfetti();
+            playHeartSound();
+        }
+
+        function playHeartSound() {
+            // Fun sound effect using Web Audio API (optional)
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+
+                oscillator.connect(gain);
+                gain.connect(audioContext.destination);
+
+                oscillator.frequency.value = 523.25; // C5 note
+                oscillator.type = 'sine';
+
+                gain.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.1);
+            } catch (e) {
+                // Fallback if audio not supported
+            }
+        }
+
+        function createConfetti() {
+            const confettiPieces = ['❤️', '💕', '💖', '💗', '💝', '✨', '🌹', '💐'];
+            
+            for (let i = 0; i < 30; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.textContent = confettiPieces[Math.floor(Math.random() * confettiPieces.length)];
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = '-10px';
+                confetti.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                confetti.style.opacity = Math.random() * 0.7 + 0.3;
+                document.body.appendChild(confetti);
+
+                const duration = Math.random() * 2000 + 2000;
+                const xDistance = (Math.random() - 0.5) * 200;
+                const rotation = Math.random() * 720;
+
+                confetti.animate([
+                    {
+                        transform: `translateY(0) translateX(0) rotate(0deg)`,
+                        opacity: 1
+                    },
+                    {
+                        transform: `translateY(${window.innerHeight + 50}px) translateX(${xDistance}px) rotate(${rotation}deg)`,
+                        opacity: 0
+                    }
+                ], {
+                    duration: duration,
+                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                });
+
+                setTimeout(() => confetti.remove(), duration);
+            }
+        }
+
+        card.addEventListener('click', () => {
+            if (clickCount < totalClicks) {
+                clickCount++;
+                updateCard();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && clickCount < totalClicks) {
+                e.preventDefault();
+                clickCount++;
+                updateCard();
+            }
+        });
+
+        // Initialize
+        shuffleMessages();
+        updateCard();
+    </script>
+</body>
+</html>

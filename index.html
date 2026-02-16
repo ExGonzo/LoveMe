@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Questions - Ask & Rate ❤️</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .mode-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 50px;
+            padding: 5px;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.2);
+            display: flex;
+            gap: 5px;
+            z-index: 100;
+            animation: slideIn 0.4s ease-out;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            padding: 10px 20px;
+            border: none;
+            background: transparent;
+            color: var(--text-light);
+            cursor: pointer;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .mode-btn.active {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            color: white;
+            box-shadow: 0 4px 10px rgba(255, 107, 157, 0.3);
+        }
+
+        .mode-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .mode-label {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .game-link {
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .mode-selector {
+                top: 10px;
+                right: 10px;
+                gap: 3px;
+            }
+
+            .mode-btn {
+                padding: 8px 14px;
+                font-size: 0.8rem;
+            }
+
+            .mode-selector {
+                flex-direction: column;
+                width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mode-selector">
+        <button class="mode-btn active" data-mode="him">👨 Him</button>
+        <button class="mode-btn" data-mode="her">👩 Her</button>
+        <a href="game.html" class="game-link">
+            <button class="mode-btn" style="background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%); color: white;">
+                🎮 Game
+            </button>
+        </a>
+    </div>
+
+    <div class="background-elements">
+        <div class="floating-heart heart-1">❤️</div>
+        <div class="floating-heart heart-2">💕</div>
+        <div class="floating-heart heart-3">💖</div>
+        <div class="floating-heart heart-4">💝</div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="title">
+                    <span class="heart-icon" id="headerIcon">👨</span>
+                    <span id="headerTitle">Ask Him</span>
+                    <span class="heart-icon">❤️</span>
+                </h1>
+                <p class="subtitle" id="headerSubtitle">She asks, He answers</p>
+            </div>
+        </header>
+
+        <!-- Welcome Message for Sarah -->
+        <div style="text-align: center; margin-bottom: 40px; animation: fadeInUp 0.6s ease-out;">
+            <p style="font-size: 1.1rem; color: var(--text-light); margin-bottom: 10px;">
+                💕 Welcome, Sarah! 💕
+            </p>
+            <p style="font-size: 0.95rem; color: var(--text-light); font-style: italic;">
+                Your favorite mermaid princess place where we ask questions, rate answers, and have fun together ✨
+            </p>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Question Section -->
+            <section class="question-section">
+                <div class="section-card">
+                    <h2 class="section-title">
+                        <i class="fas fa-heart"></i> Ask a Question
+                    </h2>
+                    <form id="questionForm" class="question-form">
+                        <div class="form-group">
+                            <input 
+                                type="text" 
+                                id="questionInput" 
+                                placeholder="Ask anything... ✨" 
+                                class="form-input"
+                                required
+                            >
+                        </div>
+                        <textarea 
+                            id="answerInput" 
+                            placeholder="Answer here... 💭" 
+                            class="form-textarea"
+                            rows="4"
+                        ></textarea>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Submit
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Questions & Answers Section -->
+            <section class="qa-section">
+                <div class="section-card">
+                    <h2 class="section-title">
+                        <i class="fas fa-comments"></i> Your Conversations
+                    </h2>
+                    
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="rated">Rated</button>
+                        <button class="filter-btn" data-filter="unrated">Unrated</button>
+                    </div>
+
+                    <div id="qaContainer" class="qa-container">
+                        <div class="empty-state">
+                            <i class="fas fa-heart-broken"></i>
+                            <p>No questions yet! Start a conversation 💕</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Stats Section -->
+            <section class="stats-section">
+                <div class="section-card">
+                    <h2 class="section-title">
+                        <i class="fas fa-chart-heart"></i> Our Stats
+                    </h2>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-number" id="totalQuestions">0</div>
+                            <div class="stat-label">Questions Asked</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number" id="avgRating">0</div>
+                            <div class="stat-label">Average Rating</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number" id="bestRating">0</div>
+                            <div class="stat-label">Best Rating</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Made with <span class="heart-beat">❤️</span> for you</p>
+            <button id="clearData" class="btn-clear">Clear All Data</button>
+        </footer>
+    </div>
+
+    <!-- Modal for editing -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit Question & Answer</h2>
+            <form id="editForm">
+                <input type="hidden" id="editId">
+                <input type="text" id="editQuestion" placeholder="Question" class="form-input">
+                <textarea id="editAnswer" placeholder="Answer" class="form-textarea" rows="4"></textarea>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Mode management
+        let currentMode = 'him';
+        
+        document.querySelectorAll('.mode-btn.active, .mode-btn[data-mode]').forEach(btn => {
+            if (btn.dataset.mode) {
+                btn.addEventListener('click', (e) => {
+                    currentMode = e.target.dataset.mode;
+                    document.querySelectorAll('.mode-btn[data-mode]').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    updateHeader();
+                    loadQAManager();
+                });
+            }
+        });
+
+        function updateHeader() {
+            const headerIcon = document.getElementById('headerIcon');
+            const headerTitle = document.getElementById('headerTitle');
+            const headerSubtitle = document.getElementById('headerSubtitle');
+
+            if (currentMode === 'him') {
+                headerIcon.textContent = '👨';
+                headerTitle.textContent = 'Ask Him';
+                headerSubtitle.textContent = 'She asks, He answers';
+            } else {
+                headerIcon.textContent = '👩';
+                headerTitle.textContent = 'Ask Her';
+                headerSubtitle.textContent = 'He asks, She answers';
+            }
+        }
+
+        function loadQAManager() {
+            const storageKey = `loveQuestions_${currentMode}`;
+            qaManager = new QAManager(storageKey);
+            uiManager = new UIManager(qaManager);
+        }
+    </script>
+    <script src="js/app.js"></script>
+</body>
+</html>
