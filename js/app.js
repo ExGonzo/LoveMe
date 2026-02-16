@@ -361,8 +361,11 @@ let qaManager;
 let uiManager;
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Use STORAGE_KEY if defined in the HTML file, otherwise use default
-    const key = typeof STORAGE_KEY !== 'undefined' ? STORAGE_KEY : 'loveQuestions';
-    qaManager = new QAManager(key);
-    uiManager = new UIManager(qaManager);
+    // Check if this is being called directly (not from mode switching)
+    if (!qaManager) {
+        // Use STORAGE_KEY if defined in the HTML file, otherwise use default
+        const key = typeof STORAGE_KEY !== 'undefined' ? STORAGE_KEY : 'loveQuestions_him';
+        qaManager = new QAManager(key);
+        uiManager = new UIManager(qaManager);
+    }
 });

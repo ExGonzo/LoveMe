@@ -3,257 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Questions - Our Story 💕</title>
+    <title>Love Questions - Ask & Rate ❤️</title>
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary-color: #ff6b9d;
-            --secondary-color: #ffc8dd;
-            --accent-color: #c44569;
-            --light-bg: #fff5f9;
-            --card-bg: #ffffff;
-            --text-dark: #333333;
-            --text-light: #666666;
-            --border-radius: 20px;
-            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #fff5f9 0%, #fee9f3 100%);
-            color: var(--text-dark);
-            line-height: 1.6;
-            min-height: 100vh;
-        }
-
-        .background-elements {
+        .mode-selector {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: -1;
-        }
-
-        .floating-heart {
-            position: absolute;
-            font-size: 3rem;
-            opacity: 0.1;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .heart-1 { top: 10%; left: 10%; animation-delay: 0s; }
-        .heart-2 { top: 50%; right: 15%; animation-delay: 1s; }
-        .heart-3 { top: 70%; left: 5%; animation-delay: 2s; }
-        .heart-4 { top: 30%; right: 10%; animation-delay: 3s; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-30px) rotate(10deg); }
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 50px;
-            animation: slideDown 0.6s ease-out;
-        }
-
-        .header-content {
-            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
-            padding: 50px 40px;
-            border-radius: var(--border-radius);
-            color: white;
-            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
-        }
-
-        .title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            font-size: 1.1rem;
-            opacity: 0.95;
-            font-weight: 300;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 40px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-            text-align: center;
-            animation: fadeInUp 0.6s ease-out;
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-            color: inherit;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 50px;
+            padding: 5px;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.2);
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            gap: 5px;
+            z-index: 100;
+            animation: slideIn 0.4s ease-out;
         }
 
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.2);
-        }
-
-        .card-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        .card-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 10px;
-        }
-
-        .card-description {
-            color: var(--text-light);
-            margin-bottom: 20px;
-        }
-
-        .card-button {
-            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
-            color: white;
+        .mode-btn {
+            padding: 10px 20px;
             border: none;
-            padding: 12px 30px;
-            border-radius: 12px;
-            font-weight: 600;
+            background: transparent;
+            color: var(--text-light);
             cursor: pointer;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
             transition: var(--transition);
-            margin-top: 15px;
         }
 
-        .card-button:hover {
-            transform: scale(1.05);
+        .mode-btn.active {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            color: white;
+            box-shadow: 0 4px 10px rgba(255, 107, 157, 0.3);
         }
 
-        @keyframes fadeInUp {
+        .mode-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .mode-label {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateX(30px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateX(0);
             }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .info-section {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-            animation: fadeInUp 0.6s ease-out 0.2s both;
-        }
-
-        .info-section h2 {
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .info-section p {
-            color: var(--text-light);
-            line-height: 1.8;
-        }
-
-        .features-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 15px;
-        }
-
-        .feature-item {
-            display: flex;
-            gap: 10px;
-            padding: 10px 0;
-        }
-
-        .feature-item i {
-            color: var(--primary-color);
-            font-weight: bold;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 30px;
-            color: var(--text-light);
-        }
-
-        .footer p {
-            margin-bottom: 10px;
         }
 
         @media (max-width: 768px) {
-            .title {
-                font-size: 1.8rem;
+            .mode-selector {
+                top: 10px;
+                right: 10px;
+                gap: 3px;
             }
 
-            .header-content {
-                padding: 30px;
-            }
-
-            .card {
-                padding: 30px;
-            }
-
-            .card-icon {
-                font-size: 3rem;
+            .mode-btn {
+                padding: 8px 14px;
+                font-size: 0.8rem;
             }
         }
     </style>
 </head>
 <body>
+    <div class="mode-selector">
+        <button class="mode-btn active" data-mode="him">👨 Him</button>
+        <button class="mode-btn" data-mode="her">👩 Her</button>
+    </div>
+
     <div class="background-elements">
         <div class="floating-heart heart-1">❤️</div>
         <div class="floating-heart heart-2">💕</div>
@@ -265,85 +93,149 @@
         <!-- Header -->
         <header class="header">
             <div class="header-content">
-                <h1 class="title">💕 Love Questions 💕</h1>
-                <p class="subtitle">Our Story - Ask, Answer & Connect</p>
+                <h1 class="title">
+                    <span class="heart-icon" id="headerIcon">👨</span>
+                    <span id="headerTitle">Ask Him</span>
+                    <span class="heart-icon">❤️</span>
+                </h1>
+                <p class="subtitle" id="headerSubtitle">She asks, He answers</p>
             </div>
         </header>
 
         <!-- Main Content -->
-        <div class="content">
-            <!-- Him Card -->
-            <a href="him.html" class="card">
-                <div class="card-icon">👨</div>
-                <h2 class="card-title">Ask Him</h2>
-                <p class="card-description">She asks, He answers</p>
-                <p style="font-size: 0.9rem; color: var(--text-light);">Questions for your boyfriend</p>
-                <button class="card-button">Start →</button>
-            </a>
+        <main class="main-content">
+            <!-- Question Section -->
+            <section class="question-section">
+                <div class="section-card">
+                    <h2 class="section-title">
+                        <i class="fas fa-heart"></i> Ask a Question
+                    </h2>
+                    <form id="questionForm" class="question-form">
+                        <div class="form-group">
+                            <input 
+                                type="text" 
+                                id="questionInput" 
+                                placeholder="Ask anything... ✨" 
+                                class="form-input"
+                                required
+                            >
+                        </div>
+                        <textarea 
+                            id="answerInput" 
+                            placeholder="Answer here... 💭" 
+                            class="form-textarea"
+                            rows="4"
+                        ></textarea>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Submit
+                        </button>
+                    </form>
+                </div>
+            </section>
 
-            <!-- Her Card -->
-            <a href="her.html" class="card">
-                <div class="card-icon">👩</div>
-                <h2 class="card-title">Ask Her</h2>
-                <p class="card-description">He asks, She answers</p>
-                <p style="font-size: 0.9rem; color: var(--text-light);">Questions for your girlfriend</p>
-                <button class="card-button">Start →</button>
-            </a>
-        </div>
+            <!-- Questions & Answers Section -->
+            <section class="qa-section">
+                <div class="section-card">
+                    <h2 class="section-title">
+                        <i class="fas fa-comments"></i> Your Conversations
+                    </h2>
+                    
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="rated">Rated</button>
+                        <button class="filter-btn" data-filter="unrated">Unrated</button>
+                    </div>
 
-        <!-- Info Section -->
-        <div class="info-section">
-            <h2>✨ How It Works</h2>
-            <p>
-                This website is designed for you both to ask meaningful questions and rate each other's answers. 
-                Keep your data completely private with local storage - nothing is sent to any server!
-            </p>
-            <div class="features-list">
-                <div class="feature-item">
-                    <i class="fas fa-check-circle"></i>
-                    <span>100% Private - Data stays local</span>
+                    <div id="qaContainer" class="qa-container">
+                        <div class="empty-state">
+                            <i class="fas fa-heart-broken"></i>
+                            <p>No questions yet! Start a conversation 💕</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="feature-item">
-                    <i class="fas fa-check-circle"></i>
-                    <span>Two Separate Sessions</span>
-                </div>
-                <div class="feature-item">
-                    <i class="fas fa-check-circle"></i>
-                    <span>Rate with Stars ⭐</span>
-                </div>
-                <div class="feature-item">
-                    <i class="fas fa-check-circle"></i>
-                    <span>Edit Anytime</span>
-                </div>
-                <div class="feature-item">
-                    <i class="fas fa-check-circle"></i>
-                    <span>Mobile Friendly</span>
-                </div>
-                <div class="feature-item">
-                    <i class="fas fa-check-circle"></i>
-                    <span>No Accounts Needed</span>
-                </div>
-            </div>
-        </div>
+            </section>
 
-        <div class="info-section">
-            <h2>💡 Getting Started</h2>
-            <p>
-                <strong>Bookmark both links:</strong> Save "Ask Him" and "Ask Her" to your favorites for easy access.
-            </p>
-            <p style="margin-top: 10px;">
-                <strong>Open separately:</strong> Use different devices or browser tabs to keep your questions private while you're both answering.
-            </p>
-            <p style="margin-top: 10px;">
-                <strong>Share the links:</strong> Send him the "Ask Him" link and her the "Ask Her" link. Each has its own data storage!
-            </p>
-        </div>
+            <!-- Stats Section -->
+            <section class="stats-section">
+                <div class="section-card">
+                    <h2 class="section-title">
+                        <i class="fas fa-chart-heart"></i> Our Stats
+                    </h2>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-number" id="totalQuestions">0</div>
+                            <div class="stat-label">Questions Asked</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number" id="avgRating">0</div>
+                            <div class="stat-label">Average Rating</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number" id="bestRating">0</div>
+                            <div class="stat-label">Best Rating</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
 
         <!-- Footer -->
-        <div class="footer">
-            <p>Made with ❤️ for couples who want to connect deeper</p>
-            <p style="font-size: 0.9rem;">All data stored locally • No tracking • No external services</p>
+        <footer class="footer">
+            <p>Made with <span class="heart-beat">❤️</span> for you</p>
+            <button id="clearData" class="btn-clear">Clear All Data</button>
+        </footer>
+    </div>
+
+    <!-- Modal for editing -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit Question & Answer</h2>
+            <form id="editForm">
+                <input type="hidden" id="editId">
+                <input type="text" id="editQuestion" placeholder="Question" class="form-input">
+                <textarea id="editAnswer" placeholder="Answer" class="form-textarea" rows="4"></textarea>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
         </div>
     </div>
+
+    <script>
+        // Mode management
+        let currentMode = 'him';
+        
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                currentMode = e.target.dataset.mode;
+                document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                updateHeader();
+                loadQAManager();
+            });
+        });
+
+        function updateHeader() {
+            const headerIcon = document.getElementById('headerIcon');
+            const headerTitle = document.getElementById('headerTitle');
+            const headerSubtitle = document.getElementById('headerSubtitle');
+
+            if (currentMode === 'him') {
+                headerIcon.textContent = '👨';
+                headerTitle.textContent = 'Ask Him';
+                headerSubtitle.textContent = 'She asks, He answers';
+            } else {
+                headerIcon.textContent = '👩';
+                headerTitle.textContent = 'Ask Her';
+                headerSubtitle.textContent = 'He asks, She answers';
+            }
+        }
+
+        function loadQAManager() {
+            const storageKey = `loveQuestions_${currentMode}`;
+            qaManager = new QAManager(storageKey);
+            uiManager = new UIManager(qaManager);
+        }
+    </script>
+    <script src="js/app.js"></script>
 </body>
 </html>
