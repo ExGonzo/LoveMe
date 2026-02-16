@@ -1,7 +1,7 @@
 // Data Management
 class QAManager {
-    constructor() {
-        this.storageKey = 'loveQuestions';
+    constructor(storageKey = 'loveQuestions') {
+        this.storageKey = storageKey;
         this.data = this.loadData();
     }
 
@@ -361,6 +361,8 @@ let qaManager;
 let uiManager;
 
 document.addEventListener('DOMContentLoaded', () => {
-    qaManager = new QAManager();
+    // Use STORAGE_KEY if defined in the HTML file, otherwise use default
+    const key = typeof STORAGE_KEY !== 'undefined' ? STORAGE_KEY : 'loveQuestions';
+    qaManager = new QAManager(key);
     uiManager = new UIManager(qaManager);
 });
