@@ -4,25 +4,24 @@ const area = document.getElementById('gameArea');
 const effects = document.getElementById('effects');
 
 const phrases = [
-  {t: "Hey princess — did you know every click makes me fall a little harder.",e:"hearts"},
-  {t: "Mermaid mode: you just summoned a pocket of butterflies.",e:"hearts"},
-  {t: "Babe, your 'game skills' are adorable — I still carry you in co-op.",e:"spark"},
-  {t: "We argue about the silliest things and I love you anyway.",e:"shake"},
-  {t: "You acting sexy in front of bears will be our next wildlife documentary.",e:"hearts"},
-  {t: "You: 'Is pizza a breakfast?' Me: 'Yes, for my queen.'",e:"spark"},
-  {t: "Your questions are cute and slightly dangerous — ask more.",e:"hearts"},
-  {t: "If loving you were a sport I'd still let you play on my team.",e:"spark"},
-  {t: "I forgive your lack of aim — your hugs always land though.",e:"hearts"},
-  {t: "When we argue about socks, you still win my heart every time.",e:"shake"},
+  {t: "Hey princess — every click is another tiny mischief we get to make together.",e:"hearts"},
+  {t: "Mermaid mode: you just summoned a pocket of giggles and bubbles.",e:"hearts"},
+  {t: "Babe, your 'game skills' are adorable — I still carry you in co-op like a boss.",e:"spark"},
+  {t: "We bicker about the silliest things and then make up with extra snacks.",e:"shake"},
+  {t: "You acting sexy in front of bears is a whole mood — headline material.",e:"hearts"},
+  {t: "You: 'Is pizza a breakfast?' Me: 'Only if the queen approves.'",e:"spark"},
+  {t: "Your questions are so cute they should get their own emoji.",e:"hearts"},
+  {t: "If loving you were a sport I'd happily be on your team — coach me, princess.",e:"spark"},
+  {t: "I forgive your lack of aim — your hugs always hit the perfect spot.",e:"hearts"},
   {t: "You call me out and I call you mine. Truce?",e:"hearts"},
-  {t: "You make stupid questions sound like secret invitations to giggle.",e:"spark"},
-  {t: "Princess, come here — I have a crown made of bad jokes.",e:"hearts"},
-  {t: "Mermaid warning: splashing may cause sudden kisses.",e:"hearts"},
-  {t: "Sometimes you win arguments by being extra dramatic — works every time.",e:"shake"},
-  {t: "I love how you try to look intimidating in front of bears — it's sexy.",e:"hearts"},
+  {t: "You make silly questions sound like secret invitations to giggle.",e:"spark"},
+  {t: "Princess, come here — I brought bad jokes and better cuddles.",e:"hearts"},
+  {t: "Mermaid warning: splashing may cause spontaneous kisses.",e:"hearts"},
+  {t: "Sometimes you win by being extra dramatic — and it's charming every time.",e:"shake"},
+  {t: "I love how you try to look intimidating in front of bears — it's secretly hot.",e:"hearts"},
   {t: "Babe, your 'one more round' face is my favorite cliffhanger.",e:"spark"},
-  // grand finale will be added as last entry below
-  {t: "Finale: Sarah — I'm crazy about you. You are my favorite person, my best friend, my secret-keeper and my forever. Will you be mine today, tomorrow, and every silly argument after? ❤️❤️❤️",e:"final"}
+  // grand finale will be added as last entry below (no 'best friend')
+  {t: "Finale: Sarah — I'm crazy about you. You are my forever vibe. Let's celebrate us: 🎉🥂✨💫❤️ — every silly fight, every late-night snack, every 'what did you mean?' — I'm yours.",e:"final"}
 ];
 
 let idx = 0;
@@ -49,8 +48,8 @@ function spawnHearts(count=6){
   for(let i=0;i<count;i++){
     const h = document.createElement('div');
     h.className='heart pop';
-    h.style.left = (50 + (Math.random()*200-100)) + 'px';
-    h.style.top = (300 + Math.random()*80) + 'px';
+    h.style.left = (btn.offsetLeft + (Math.random()*220-110)) + 'px';
+    h.style.top = (btn.offsetTop + (Math.random()*120-40)) + 'px';
     h.style.setProperty('--delay', Math.random() + 's');
     effects.appendChild(h);
     setTimeout(()=>h.remove(),1100);
@@ -70,6 +69,24 @@ function spawnSparks(count=8){
   }
 }
 
+function spawnConfetti(count=60){
+  const colors = ['#FF6B6B','#FFD166','#7AD3FF','#B8FFB0','#FFB6C1','#9B8CFF'];
+  for(let i=0;i<count;i++){
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.left = (btn.offsetLeft + btn.offsetWidth/2 + (Math.random()*300-150)) + 'px';
+    c.style.top = (btn.offsetTop + btn.offsetHeight/2 + (Math.random()*60-30)) + 'px';
+    c.style.transform = 'rotate(' + (Math.random()*360) + 'deg)';
+    effects.appendChild(c);
+    const fall = c.animate([
+      {transform: c.style.transform + ' translateY(0) rotate(0deg)', opacity:1},
+      {transform: c.style.transform + ' translateY(' + (300 + Math.random()*300) + 'px) rotate(' + (360+Math.random()*360) + 'deg)', opacity:0}
+    ],{duration:1200+Math.random()*1200,easing:'cubic-bezier(.2,.7,.2,1)'});
+    setTimeout(()=>c.remove(),2200);
+  }
+}
+
 function typeMessage(text,klass=''){
   msg.className = 'message typewriter '+klass;
   msg.textContent = '';
@@ -85,7 +102,14 @@ btn.addEventListener('click', ()=>{
   if(entry.e === 'hearts') spawnHearts(10);
   if(entry.e === 'spark') spawnSparks(10);
   if(entry.e === 'shake') btn.classList.add('shake');
-  if(entry.e === 'final') btn.classList.add('final');
+  if(entry.e === 'final'){
+    btn.classList.add('final');
+    spawnConfetti(90);
+    // center the button and make it celebratory
+    btn.style.left = 'calc(50% - ' + (btn.offsetWidth/2) + 'px)';
+    btn.style.top = '50%';
+    btn.textContent = 'Celebrate!';
+  }
   typeMessage(entry.t, entry.e === 'final' ? 'final' : '');
 
   setTimeout(()=>{
